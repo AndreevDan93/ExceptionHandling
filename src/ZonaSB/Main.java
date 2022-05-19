@@ -8,6 +8,21 @@ class Main {
         Scanner scanner = new Scanner(System.in);
         String s = scanner.nextLine();
         String[] enterData = s.split(" ");
+        if (!isNumber(enterData[0]) || !isNumber(enterData[2])) {
+            System.out.println("Error! Not number");
+        }
+        if (!isOperation(enterData[1])) {
+            System.out.println("Operation Error!");
+        }
+        if (enterData[2].equals("0") && enterData[1].equals("/")){
+            System.out.println("Error! Division by zero");
+        }
+
+
+
+
+
+
 
         try {
 
@@ -24,7 +39,8 @@ class Main {
             System.out.println(result);
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.getStackTrace();
+
         }
 
 
