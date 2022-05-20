@@ -2,30 +2,37 @@ package ZonaSB;
 
 
 import javax.management.OperationsException;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.Scanner;
 
 
-class Calculator {
-    public static void main(String[] args) {
+class Main {
+    public static void main(String[] args) throws Exception {
+        // FileReader fileReader = new FileReader("test.txt");
+
+
         Scanner scanner = new Scanner(System.in);
         String[] array = scanner.nextLine().split(" ");
         try {
-            Double.parseDouble(array[0]);
-            Double.parseDouble(array[2]);
-        } catch (NumberFormatException e) {
-            System.out.println("Error! Not number");
-            return;
-        }
-        try {
             System.out.println(calculate(array));
-        } catch (ArithmeticException | IllegalArgumentException e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
-    private static double calculate(String[] array) {
-        double n1 = Double.parseDouble(array[0]);
-        double n2 = Double.parseDouble(array[2]);
+
+    private static double calculate(String[] array) throws Exception {
+        double n1 = 0;
+        double n2 = 0;
+
+        try {
+            n1 = Double.parseDouble(array[0]);
+            n2 = Double.parseDouble(array[2]);
+
+        } catch (Exception exception) {
+            throw new Exception("Error! Not number");
+        }
 
         switch (array[1]) {
             case "+":
@@ -36,15 +43,16 @@ class Calculator {
                 return n1 * n2;
             case "/":
                 if (n2 == 0.0)
-                    throw new IllegalArgumentException("Error! Division by zero");
+                    throw new Exception("Error! Division by zero");
                 return Double.parseDouble(array[0]) / Double.parseDouble(array[2]);
             default:
-                throw new ArithmeticException("Operation Error!");
+                throw new Exception("Operation Error!");
         }
 
 
     }
 }
+
 
 
 
