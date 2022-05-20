@@ -41,6 +41,8 @@ class Calculator {
             default:
                 throw new ArithmeticException("Operation Error!");
         }
+
+
     }
 }
 
