@@ -1,40 +1,48 @@
 package ZonaSB;
 
 
+import javax.management.OperationsException;
 import java.util.Scanner;
 
-class Main {
+
+class Calculator {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        String s = scanner.nextLine();
-        String[] enterData = s.split(" ");
-        if (!isNumber(enterData[0]) || !isNumber(enterData[2])) System.out.println("Error! Not number");
-        else if (!isOperation(enterData[1])) System.out.println("Operation Error!");
-        else if (Integer.parseInt(enterData[2]) == 0 && enterData[1].equals("/"))
-            System.out.println("Error! Division by zero");
-        else System.out.println(getOperation(enterData[0],enterData[1],enterData[2]));
-    }
-
-    private static boolean isNumber(String s) throws NumberFormatException {
+        String[] array = scanner.nextLine().split(" ");
         try {
-            Integer.parseInt(s);
-            return true;
+            Double.parseDouble(array[0]);
+            Double.parseDouble(array[2]);
         } catch (NumberFormatException e) {
-            return false;
+            System.out.println("Error! Not number");
+            return;
+        }
+        try {
+            System.out.println(calculate(array));
+        } catch (ArithmeticException | IllegalArgumentException e) {
+            System.out.println(e.getMessage());
         }
     }
 
-    private static boolean isOperation(String s) {
-        if (s.equals("+") || s.equals("*") || s.equals("/") || s.equals("-")) return true;
-        else return false;
+    private static double calculate(String[] array) {
+        double n1 = Double.parseDouble(array[0]);
+        double n2 = Double.parseDouble(array[2]);
 
-    }
-
-    private static double getOperation(String a, String o, String b) {
-        if (o.equals("+")) return Double.parseDouble(a) + Double.parseDouble(b);
-        else if (o.equals("*")) return Double.parseDouble(a) * Double.parseDouble(b);
-        else if (o.equals("/"))return Double.parseDouble(a) / Double.parseDouble(b);
-        else   return Double.parseDouble(a) - Double.parseDouble(b);
-
+        switch (array[1]) {
+            case "+":
+                return n1 + n2;
+            case "-":
+                return n1 - n2;
+            case "*":
+                return n1 * n2;
+            case "/":
+                if (n2 == 0.0)
+                    throw new IllegalArgumentException("Error! Division by zero");
+                return Double.parseDouble(array[0]) / Double.parseDouble(array[2]);
+            default:
+                throw new ArithmeticException("Operation Error!");
+        }
     }
 }
+
+
+
