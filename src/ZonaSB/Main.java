@@ -1,58 +1,59 @@
 package ZonaSB;
 
 
-import javax.management.OperationsException;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.Scanner;
 
 
 class Main {
     public static void main(String[] args) throws Exception {
-        // FileReader fileReader = new FileReader("test.txt");
-
-
         Scanner scanner = new Scanner(System.in);
-        String[] array = scanner.nextLine().split(" ");
+        String s = scanner.nextLine();
+
         try {
-            System.out.println(calculate(array));
+            isNumber(s);
+            isOperation(s);
+            isZero(s);
+            System.out.println(getOperation(s));
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
-
-    private static double calculate(String[] array) throws Exception {
-        double n1 = 0;
-        double n2 = 0;
-
+    private static void isNumber(String s) throws Exception {
         try {
-            n1 = Double.parseDouble(array[0]);
-            n2 = Double.parseDouble(array[2]);
-
-        } catch (Exception exception) {
+            String[] enterData = s.split(" ");
+            Double.parseDouble(enterData[0]);
+            Double.parseDouble(enterData[2]);
+        } catch (NumberFormatException e) {
             throw new Exception("Error! Not number");
         }
-
-        switch (array[1]) {
-            case "+":
-                return n1 + n2;
-            case "-":
-                return n1 - n2;
-            case "*":
-                return n1 * n2;
-            case "/":
-                if (n2 == 0.0)
-                    throw new Exception("Error! Division by zero");
-                return Double.parseDouble(array[0]) / Double.parseDouble(array[2]);
-            default:
-                throw new Exception("Operation Error!");
-        }
-
-
     }
 
+    private static void isOperation(String s) throws Exception {
+        String[] enterData = s.split(" ");
+        if (enterData[1].equals("+") || enterData[1].equals("*") || enterData[1].equals("/") || enterData[1].equals("-"));
+        else throw new Exception("Operation Error!");
+    }
+
+    private static void isZero(String s) throws Exception {
+        String[] enterData = s.split(" ");
+        if (enterData[2].equals("0") && enterData[1].equals("/")) throw new Exception("Error! Division by zero");
+    }
+
+    private static double getOperation(String s) throws Exception {
+        String[] enterData = s.split(" ");
+        switch (enterData[1]){
+            case "+": return Double.parseDouble(enterData[0]) + Double.parseDouble(enterData[2]);
+            case "-": return Double.parseDouble(enterData[0]) - Double.parseDouble(enterData[2]);
+            case "*": return Double.parseDouble(enterData[0]) * Double.parseDouble(enterData[2]);
+            case "/": return Double.parseDouble(enterData[0]) / Double.parseDouble(enterData[2]);
+            default: throw new Exception("exception");
+        }
+
+    }
 }
+
+
 
 
 
