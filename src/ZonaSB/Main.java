@@ -1,23 +1,46 @@
 package ZonaSB;
 
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 
 class Main {
     public static void main(String[] args) throws Exception {
-        Scanner scanner = new Scanner(System.in);
-        String s = scanner.nextLine();
+        ArrayList arithmetic = readFile();
+        for (Object s: arithmetic) {
+            String str = s.toString();
 
-        try {
-            isNumber(s);
-            isOperation(s);
-            isZero(s);
-            System.out.println(getOperation(s));
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+            try {
+                isNumber(str);
+                isOperation(str);
+                isZero(str);
+                System.out.println(getOperation(str));
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
+
+    private static ArrayList<String> readFile() throws Exception {
+        ArrayList<String> arithmetic = new ArrayList<>();
+        try {
+
+            BufferedReader bufferedReader = new BufferedReader(new FileReader("Read.txt"));
+            String s;
+
+            while ((s = bufferedReader.readLine()) != null){
+                arithmetic.add(s);
+            }
+            return arithmetic;
+
+        }catch (Exception exception){
+            throw new Exception("Error, can't read file");
+        }
+    }
+
 
     private static void isNumber(String s) throws Exception {
         try {
@@ -31,7 +54,8 @@ class Main {
 
     private static void isOperation(String s) throws Exception {
         String[] enterData = s.split(" ");
-        if (enterData[1].equals("+") || enterData[1].equals("*") || enterData[1].equals("/") || enterData[1].equals("-"));
+        if (enterData[1].equals("+") || enterData[1].equals("*") || enterData[1].equals("/") || enterData[1].equals("-"))
+            ;
         else throw new Exception("Operation Error!");
     }
 
@@ -42,12 +66,17 @@ class Main {
 
     private static double getOperation(String s) throws Exception {
         String[] enterData = s.split(" ");
-        switch (enterData[1]){
-            case "+": return Double.parseDouble(enterData[0]) + Double.parseDouble(enterData[2]);
-            case "-": return Double.parseDouble(enterData[0]) - Double.parseDouble(enterData[2]);
-            case "*": return Double.parseDouble(enterData[0]) * Double.parseDouble(enterData[2]);
-            case "/": return Double.parseDouble(enterData[0]) / Double.parseDouble(enterData[2]);
-            default: throw new Exception("exception");
+        switch (enterData[1]) {
+            case "+":
+                return Double.parseDouble(enterData[0]) + Double.parseDouble(enterData[2]);
+            case "-":
+                return Double.parseDouble(enterData[0]) - Double.parseDouble(enterData[2]);
+            case "*":
+                return Double.parseDouble(enterData[0]) * Double.parseDouble(enterData[2]);
+            case "/":
+                return Double.parseDouble(enterData[0]) / Double.parseDouble(enterData[2]);
+            default:
+                throw new Exception("exception");
         }
 
     }
