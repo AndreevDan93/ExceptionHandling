@@ -2,43 +2,61 @@ package ZonaSB;
 
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 
 class Main {
     public static void main(String[] args) throws Exception {
-        ArrayList arithmetic = readFile();
-        for (Object s: arithmetic) {
-            String str = s.toString();
+        ArrayList<String> arithmetic = readFile();
 
+        for (int i = 0; i < arithmetic.size(); i++) {
+            String str = arithmetic.get(i);
+            String result = "";
             try {
                 isNumber(str);
                 isOperation(str);
                 isZero(str);
-                System.out.println(getOperation(str));
+                Double calculate = getOperation(str);
+                result = str + " = " + calculate.toString();
+
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+                result = str + " = " + e.getMessage();
+            } finally {
+                arithmetic.set(i, result);
             }
         }
+        writeFile(arithmetic);
     }
 
     private static ArrayList<String> readFile() throws Exception {
         ArrayList<String> arithmetic = new ArrayList<>();
         try {
 
-            BufferedReader bufferedReader = new BufferedReader(new FileReader("Read.txt"));
+            BufferedReader bufferedReader = new BufferedReader(new FileReader("C:\\JavaProjects\\problems\\src\\ZonaSB\\Read.txt"));
             String s;
 
-            while ((s = bufferedReader.readLine()) != null){
+            while ((s = bufferedReader.readLine()) != null) {
                 arithmetic.add(s);
             }
+            bufferedReader.close();
             return arithmetic;
 
-        }catch (Exception exception){
+        } catch (Exception exception) {
             throw new Exception("Error, can't read file");
         }
+    }
+
+    private static void writeFile(ArrayList<String> arithmetic) throws Exception {
+
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("C:\\JavaProjects\\problems\\src\\ZonaSB\\Write.txt"));
+        for (String s : arithmetic) bufferedWriter.write(s + "\n");
+        bufferedWriter.close();
+
+
     }
 
 
